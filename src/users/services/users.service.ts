@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common'
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
 import { CreateUserDto } from '../dto/create-user.dto'
 import { UpdateUserDto } from '../dto/update-user.dto'
 import { Repository } from 'typeorm'
@@ -9,8 +9,8 @@ import { ErrorMessages } from 'src/constants/errors.constants'
 @Injectable()
 export class UsersService {
   constructor(@InjectRepository(User) private readonly repo: Repository<User>) { }
-  async create(email: string, password: string) {
-    const user = await this.repo.create({ email, password })
+  async create(createUserDto: CreateUserDto) {
+    const user = await this.repo.create(createUserDto)
     return this.repo.save(user)
   }
 
@@ -18,12 +18,28 @@ export class UsersService {
     return this.repo.find({ where: { email } })
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`
+  async findOne(id: number) {
+    const [user] = await this.repo.find({ where: { id } })
+    if (!user) {
+      return null
+    }
+    return user
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`
+  async update(id: number, updateUserDto: UpdateUserDto) {
+    const [user] = await this.repo.find({ where: { id } })
+    if (!user) {
+      throw new NotFoundException(ErrorMessages.NO_USER_FOUND)
+    }
+
+    user.firstname = updateUserDto.firstname
+    user.lastname = updateUserDto.lastname
+    user.email = updateUserDto.email
+    user.admin = updateUserDto.admin
+    user.profile = updateUserDto.profile
+    user.interests = updateUserDto.interests
+
+    return this.repo.save(user)
   }
 
   remove(id: number) {

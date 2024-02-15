@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common'
+import { Controller, Get, Post, Body, Patch, Param, Delete, Session } from '@nestjs/common'
 import { UsersService } from './services/users.service'
 import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
@@ -6,6 +6,10 @@ import { AuthService } from './services/auth.service'
 import { SignInDto } from './dto/signin.dto'
 import { Serialize } from 'src/interceptors/serialize.interceptor'
 import { UserDto } from './dto/user.dto'
+import { CurrentUser } from './current-user.decorator'
+import { User } from './entities/user.entity'
+import { GuardRoute } from 'src/guards/auth.guard'
+import { CheckAdministrativeAccess } from 'src/guards/admin.guard'
 
 @Serialize(UserDto)
 @Controller('users')
@@ -16,31 +20,47 @@ export class UsersController {
   ) { }
 
   @Post('auth/signup')
-  create(@Body() { email, password }: CreateUserDto) {
-    return this.authService.signup(email, password)
+  async create(@Body() createUserDto: CreateUserDto, @Session() session: any) {
+    const user = await this.authService.signup(createUserDto)
+    session.userId = user.id
+    return user
   }
 
   @Post('auth/signin')
-  signin(@Body() signInDto: SignInDto) {
-    return this.authService.signin(signInDto)
+  async signin(@Body() signInDto: SignInDto, @Session() session: any) {
+    const user = await this.authService.signin(signInDto)
+    session.userId = user.id
+    return user
+  }
+
+  @Post('auth/signout')
+  async signout(@Session() session: any) {
+    session.userId = null
+  }
+
+  @Get('profile')
+  @GuardRoute()
+  async user(@CurrentUser() user: User) {
+    return user
   }
 
   @Get()
+  @GuardRoute()
+  @CheckAdministrativeAccess()
   fetchUsers() {
     return this.usersService.find(null)
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne(+id)
-  }
 
-  @Patch(':id')
+  @Patch('auth/:id/update')
+  @GuardRoute()
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(+id, updateUserDto)
   }
 
   @Delete(':id/delete')
+  @GuardRoute()
+  @CheckAdministrativeAccess()
   remove(@Param('id') id: string) {
     return this.usersService.remove(+id)
   }

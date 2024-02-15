@@ -1,0 +1,40 @@
+### GET ALL USERS
+GET http://localhost:3000/users
+
+### GET CURRENTLY SIGNED IN USER
+GET http://localhost:3000/users/profile
+
+### SIGN UP NEW USER
+POST http://localhost:3000/users/auth/signup
+Content-Type: application/json
+
+{
+    "email": "abdul@nexus.com",
+    "password": "Password@2",
+    "admin": true
+}
+
+### SIGN IN USER
+POST http://localhost:3000/users/auth/signin
+Content-Type: application/json
+
+{
+    "email": "albanybuipe@nexus.com",
+    "password": "Password@1"
+}
+
+### UPDATE USER INFO
+PATCH http://localhost:3000/users/auth/2/update
+Content-Type: application/json
+
+{
+    "admin": true
+}
+
+### SIGN OUT USER
+POST http://localhost:3000/users/auth/signout
+Content-Type: application/json
+
+### DELETE USER BY ID
+DELETE http://localhost:3000/users/6/delete
+Content-Type: application/json

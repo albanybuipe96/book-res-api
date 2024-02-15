@@ -11,6 +11,9 @@ export class UserDto {
 
     lastname: string
 
+    @Expose()
+    admin: boolean
+
     password: string
 
     profile: string

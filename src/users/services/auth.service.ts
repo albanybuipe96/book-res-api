@@ -4,6 +4,7 @@ import { scrypt as _scrypt, randomBytes } from 'crypto'
 import { promisify } from 'util'
 import { ErrorMessages } from 'src/constants/errors.constants'
 import { SignInDto } from '../dto/signin.dto'
+import { CreateUserDto } from '../dto/create-user.dto'
 
 const scrypt = promisify(_scrypt)
 
@@ -11,7 +12,8 @@ const scrypt = promisify(_scrypt)
 export class AuthService {
     constructor(private readonly usersService: UsersService) { }
 
-    async signup(email: string, password: string) {
+    async signup(createUserDto: CreateUserDto) {
+        const { email, password } = createUserDto
         const users = await this.usersService.find(email)
 
         if (users.length) {
@@ -22,7 +24,7 @@ export class AuthService {
         const hash = (await scrypt(password, salt, 32)) as Buffer
         const encrypted = salt + '.' + hash.toString('hex')
 
-        const user = await this.usersService.create(email, encrypted)
+        const user = await this.usersService.create(createUserDto)
         return user
     }
 
