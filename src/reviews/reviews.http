@@ -1,0 +1,21 @@
+### GET ALL REVIEWS
+GET http://localhost:3000/reviews
+
+### ADD NEW REVIEW
+POST http://localhost:3000/reviews
+Content-Type: application/json
+
+{
+    "content": ""
+}
+
+### UPDATE REVIEW
+PATCH http://localhost:3000/reviews/2/update
+Content-Type: application/json
+
+{
+    "content": "Really enjoyed the book."
+}
+
+### DELETE REVIEW
+DELETE http://localhost:3000/reviews/1/delete
