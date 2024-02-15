@@ -9,7 +9,7 @@ POST http://localhost:3000/users/auth/signup
 Content-Type: application/json
 
 {
-    "email": "abdul@nexus.com",
+    "email": "ustadh@nexus.com",
     "password": "Password@2",
     "admin": true
 }

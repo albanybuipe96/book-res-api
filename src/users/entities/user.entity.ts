@@ -1,10 +1,14 @@
-import { AfterInsert, AfterRemove, AfterUpdate, Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import { Book } from 'src/books/entities/book.entity'
+import { AfterInsert, AfterRemove, AfterUpdate, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 
 @Entity()
 export class User {
 
     @PrimaryGeneratedColumn()
     id: number
+
+    @OneToMany(() => Book, (book) => book.user)
+    books: Book[]
 
     @Column()
     email: string

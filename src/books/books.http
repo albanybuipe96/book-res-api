@@ -1,0 +1,29 @@
+### GET ALL BOOKS
+GET http://localhost:3000/books
+
+### GET ALL BOOKS ADDED BY USER
+GET http://localhost:3000/books/user
+
+### GET BOOK BY ID
+GET http://localhost:3000/books/2
+
+### ADD NEW BOOK
+POST http://localhost:3000/books
+Content-Type: application/json
+
+{
+    "title": "Goals",
+    "author": "Brian Tracy"
+}
+
+### UPDATE BOOK
+PATCH http://localhost:3000/books/5/update
+Content-Type: application/json
+
+{
+    "title": "No Excuses"
+}
+
+### DELETE BOOK BY ID
+DELETE http://localhost:3000/books/7/delete
+Content-Type: application/json
