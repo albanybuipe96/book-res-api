@@ -10,6 +10,7 @@ import { BooksModule } from './books/books.module'
 import { Book } from './books/entities/book.entity'
 import { ReviewsModule } from './reviews/reviews.module'
 import { Review } from './reviews/entities/review.entity'
+import { LessonsModule } from './lessons/lessons.module';
 const cookieSession = require('cookie-session')
 
 @Module({
@@ -38,6 +39,7 @@ const cookieSession = require('cookie-session')
     }),
     BooksModule,
     ReviewsModule,
+    LessonsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
