@@ -45,8 +45,8 @@ export class UsersController {
   }
 
   @Get()
-  @GuardRoute()
-  @CheckAdministrativeAccess()
+    // @GuardRoute()
+    // @CheckAdministrativeAccess()
   fetchUsers() {
     return this.usersService.find(null)
   }
