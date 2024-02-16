@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Session } from '@nestjs/common'
+import { Controller, Get, Post, Body, Patch, Param, Delete, Session, UseInterceptors, ClassSerializerInterceptor } from '@nestjs/common'
 import { UsersService } from './services/users.service'
 import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
@@ -58,9 +58,10 @@ export class UsersController {
     return this.usersService.update(+id, updateUserDto)
   }
 
+  // @UseInterceptors(ClassSerializerInterceptor)
   @Delete(':id/delete')
   @GuardRoute()
-  @CheckAdministrativeAccess()
+    // @CheckAdministrativeAccess()
   remove(@Param('id') id: string) {
     return this.usersService.remove(+id)
   }

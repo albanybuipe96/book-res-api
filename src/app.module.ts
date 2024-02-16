@@ -6,11 +6,46 @@ import { UsersModule } from './users/users.module'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { COOKIE_SESSION_SECRET, DB_HOST, DB_NAME, DB_PASSWORD, DB_PORT, DB_USERNAME } from './constants/config.constants'
 import { User } from './users/entities/user.entity'
+import { BooksModule } from './books/books.module'
+import { Book } from './books/entities/book.entity'
+import { ReviewsModule } from './reviews/reviews.module'
+import { Review } from './reviews/entities/review.entity'
+import { LessonsModule } from './lessons/lessons.module';
+import { Lesson } from './lessons/entities/lesson.entity'
+import { LoggerModule } from 'nestjs-pino'
 const cookieSession = require('cookie-session')
+import { WinstonModule, utilities as nestWinstonModuleUtilities } from 'nest-winston'
+import * as winston from 'winston';
+
 
 @Module({
   imports: [
     UsersModule,
+    WinstonModule.forRoot({
+      transports: [
+        new winston.transports.Console({
+          format: winston.format.combine(
+            winston.format.timestamp(),
+            winston.format.ms(),
+            nestWinstonModuleUtilities.format.nestLike('MyApp', {
+              colors: true,
+              prettyPrint: true,
+            }),
+          ),
+        }),
+        // other transports...
+      ],
+    }),
+    LoggerModule.forRoot({
+      pinoHttp: {
+        transport: {
+          target: 'pino-pretty',
+          options: {
+            singleLine: true,
+          }
+        }
+      }
+    }),
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env'
@@ -25,13 +60,19 @@ const cookieSession = require('cookie-session')
           username: config.get<string>(DB_USERNAME),
           password: config.get<string>(DB_PASSWORD),
           database: config.get<string>(DB_NAME),
-          entities: [User],
-          synchronize: true,
-          logging: true,
+          entities: [User, Book, Review, Lesson],
+          migrations: ["dist/migrations/*{.ts,.js}"],
+          synchronize: false,
+          // logging: true,
           autoLoadEntities: true,
+          sslmode: 'require',
+          ssl: true,
         }
       }
     }),
+    BooksModule,
+    ReviewsModule,
+    LessonsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

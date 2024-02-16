@@ -1,0 +1,32 @@
+### GET ALL LESSONS
+GET http://localhost:3000/lessons
+
+### GET CURRENT BOOK
+GET http://localhost:3000/lessons/lesson
+
+### GET ALL LESSONS ADDED BY USER
+GET http://localhost:3000/lessons/user
+
+### GET LESSON BY ID
+GET http://localhost:3000/lessons/6
+
+### ADD NEW LESSON
+POST http://localhost:3000/lessons
+Content-Type: application/json
+
+{
+    "title": "Procastination",
+    "content": "In truth, it's a thief of time."
+}
+
+### UPDATE LESSON
+PATCH http://localhost:3000/lessons/5/update
+Content-Type: application/json
+
+{
+    "title": "No Excuses"
+}
+
+### DELETE LESSON BY ID
+DELETE http://localhost:3000/lessons/3/delete
+Content-Type: application/json

@@ -13,7 +13,7 @@ export class AuthService {
     constructor(private readonly usersService: UsersService) { }
 
     async signup(createUserDto: CreateUserDto) {
-        const { email, password } = createUserDto
+        const { email, password, admin } = createUserDto
         const users = await this.usersService.find(email)
 
         if (users.length) {
@@ -24,7 +24,7 @@ export class AuthService {
         const hash = (await scrypt(password, salt, 32)) as Buffer
         const encrypted = salt + '.' + hash.toString('hex')
 
-        const user = await this.usersService.create(createUserDto)
+        const user = await this.usersService.create(email, encrypted, admin)
         return user
     }
 

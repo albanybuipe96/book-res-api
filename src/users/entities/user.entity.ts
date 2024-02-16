@@ -1,10 +1,23 @@
-import { AfterInsert, AfterRemove, AfterUpdate, Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import { Book } from 'src/books/entities/book.entity'
+import { Lesson } from 'src/lessons/entities/lesson.entity'
+import { Review } from 'src/reviews/entities/review.entity'
+import { AfterInsert, AfterRemove, AfterUpdate, Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 
 @Entity()
 export class User {
 
     @PrimaryGeneratedColumn()
     id: number
+
+    @OneToMany(() => Book, (book) => book.user)
+    books: Book[]
+
+    @OneToMany(() => Review, (review) => review.user)
+    reviews: Review[]
+
+    @OneToMany(() => Lesson, (lesson) => lesson.user)
+    lessons: Lesson[]
+
 
     @Column()
     email: string
