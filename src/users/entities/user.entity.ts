@@ -1,5 +1,6 @@
 import { Book } from 'src/books/entities/book.entity'
-import { AfterInsert, AfterRemove, AfterUpdate, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
+import { Review } from 'src/reviews/entities/review.entity'
+import { AfterInsert, AfterRemove, AfterUpdate, Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 
 @Entity()
 export class User {
@@ -9,6 +10,10 @@ export class User {
 
     @OneToMany(() => Book, (book) => book.user)
     books: Book[]
+
+    @OneToMany(() => Review, (review) => review.user)
+    reviews: Review[]
+
 
     @Column()
     email: string

@@ -1,8 +1,9 @@
-import { Module } from '@nestjs/common'
+import { MiddlewareConsumer, Module } from '@nestjs/common'
 import { BooksController } from './books.controller'
 import { BooksService } from './books.service'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { Book } from './entities/book.entity'
+import { CurrentBookMiddleware } from './middlewares/current-book.middleware'
 
 @Module({
   imports: [
@@ -11,4 +12,10 @@ import { Book } from './entities/book.entity'
   controllers: [BooksController],
   providers: [BooksService]
 })
-export class BooksModule { }
+export class BooksModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(CurrentBookMiddleware)
+      .forRoutes('*')
+  }
+}

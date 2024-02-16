@@ -1,12 +1,15 @@
 ### GET ALL REVIEWS
 GET http://localhost:3000/reviews
 
+### GET REVIEW
+GET http://localhost:3000/reviews/10
+
 ### ADD NEW REVIEW
 POST http://localhost:3000/reviews
 Content-Type: application/json
 
 {
-    "content": ""
+    "content": "Best book on theme"
 }
 
 ### UPDATE REVIEW
@@ -18,4 +21,4 @@ Content-Type: application/json
 }
 
 ### DELETE REVIEW
-DELETE http://localhost:3000/reviews/1/delete
+DELETE http://localhost:3000/reviews/7/delete

@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common'
+import { MiddlewareConsumer, Module } from '@nestjs/common'
 import { ReviewsService } from './reviews.service'
 import { ReviewsController } from './reviews.controller'
 import { Review } from './entities/review.entity'
@@ -9,4 +9,5 @@ import { TypeOrmModule } from '@nestjs/typeorm'
   controllers: [ReviewsController],
   providers: [ReviewsService],
 })
-export class ReviewsModule { }
+export class ReviewsModule {
+}

@@ -28,6 +28,27 @@ export class BooksService {
         return this.bookRepository.find({ where: { user }, relations: ['user'] })
     }
 
+    /*
+    const jobsQueried = await this.repo.createQueryBuilder('job')
+            .where('job.title = :title', { title })
+            .orWhere('job.location = :location', { location })
+            .orWhere('job.company = :company', { company })
+            .orWhere('job.salary = :salary', { salary })
+            .getMany()
+    */
+    booksCount(user: User) {
+
+        const query = this.bookRepository.createQueryBuilder('book')
+            .where('book.user = :user')
+            .setParameter('user', user)
+            .select('COUNT(book.id)', 'count')
+
+        console.log(query)
+
+        return query.getRawOne()
+
+    }
+
     async getBook(id: number) {
         const book = await this.bookRepository.findOne({
             where: { id },

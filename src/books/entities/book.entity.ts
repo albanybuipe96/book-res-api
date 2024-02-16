@@ -1,5 +1,6 @@
+import { Review } from 'src/reviews/entities/review.entity'
 import { User } from 'src/users/entities/user.entity'
-import { Column, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 
 @Entity()
 export class Book {
@@ -8,6 +9,9 @@ export class Book {
 
     @ManyToOne(() => User, (user) => user.books)
     user: User
+
+    @OneToMany(() => Review, (review) => review.book)
+    reviews: Review[]
 
     @Column()
     title: string
