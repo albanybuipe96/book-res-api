@@ -1,26 +1,34 @@
 import { Injectable } from '@nestjs/common';
 import { CreateLessonDto } from './dto/create-lesson.dto';
 import { UpdateLessonDto } from './dto/update-lesson.dto';
+import { InjectRepository } from '@nestjs/typeorm'
+import { Lesson } from './entities/lesson.entity'
+import { Repository } from 'typeorm'
+import { Book } from 'src/books/entities/book.entity'
 
 @Injectable()
 export class LessonsService {
-  create(createLessonDto: CreateLessonDto) {
-    return 'This action adds a new lesson';
+  constructor(@InjectRepository(Lesson) private readonly repo: Repository<Lesson>) { }
+  async create(createLessonDto: CreateLessonDto, book: Book) {
+    const lesson = this.repo.create(createLessonDto)
+    lesson.book = book
+    lesson.user = book.user
+    return this.repo.save(lesson)
   }
 
-  findAll() {
-    return `This action returns all lessons`;
+  getLessons() {
+    return this.repo.find({ relations: ['user', 'book'] })
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} lesson`;
+  async getLesson(id: number) {
+    const lesson = await this.repo.findOne({ where: { id }, relations: ['user', 'book'] })
   }
 
   update(id: number, updateLessonDto: UpdateLessonDto) {
-    return `This action updates a #${id} lesson`;
+    return this.repo.update(id, updateLessonDto)
   }
 
   remove(id: number) {
-    return `This action removes a #${id} lesson`;
+    return this.repo.delete(id)
   }
 }

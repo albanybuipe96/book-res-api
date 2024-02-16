@@ -8,7 +8,7 @@ GET http://localhost:3000/books/review
 GET http://localhost:3000/books/user
 
 ### GET BOOK BY ID
-GET http://localhost:3000/books/6
+GET http://localhost:3000/books/7
 
 ### ADD NEW BOOK
 POST http://localhost:3000/books

@@ -1,4 +1,5 @@
 import { Book } from 'src/books/entities/book.entity'
+import { Lesson } from 'src/lessons/entities/lesson.entity'
 import { Review } from 'src/reviews/entities/review.entity'
 import { AfterInsert, AfterRemove, AfterUpdate, Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
 
@@ -13,6 +14,9 @@ export class User {
 
     @OneToMany(() => Review, (review) => review.user)
     reviews: Review[]
+
+    @OneToMany(() => Lesson, (lesson) => lesson.user)
+    lessons: Lesson[]
 
 
     @Column()

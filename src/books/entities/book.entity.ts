@@ -1,3 +1,4 @@
+import { Lesson } from 'src/lessons/entities/lesson.entity'
 import { Review } from 'src/reviews/entities/review.entity'
 import { User } from 'src/users/entities/user.entity'
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm'
@@ -12,6 +13,9 @@ export class Book {
 
     @OneToMany(() => Review, (review) => review.book)
     reviews: Review[]
+
+    @OneToMany(() => Lesson, (lesson) => lesson.book)
+    lessons: Lesson[]
 
     @Column()
     title: string
