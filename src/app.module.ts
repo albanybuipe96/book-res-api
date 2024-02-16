@@ -61,9 +61,12 @@ import * as winston from 'winston';
           password: config.get<string>(DB_PASSWORD),
           database: config.get<string>(DB_NAME),
           entities: [User, Book, Review, Lesson],
-          synchronize: true,
-          logging: true,
+          migrations: ["dist/migrations/*{.ts,.js}"],
+          synchronize: false,
+          // logging: true,
           autoLoadEntities: true,
+          sslmode: 'require',
+          ssl: true,
         }
       }
     }),
