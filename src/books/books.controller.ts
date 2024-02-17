@@ -54,7 +54,7 @@ export class BooksController {
         return book
     }
 
-    @Patch('/:id/update')
+    @Patch('update/:id')
     @GuardRoute()
     async updateBook(
         @Param('id') id: string,
@@ -64,16 +64,10 @@ export class BooksController {
         return this.booksService.updateBook(+id, updateBookDto, user)
     }
 
-    @Delete('/:id/delete')
+    @Delete('delete/:id')
     @GuardRoute()
     async delete(@Param('id') id: string, @CurrentUser() user: User) {
         console.log({ id })
-        return this.booksService.deleteBook(+id, user)
-    }
-
-    @Get('/:id/delete')
-    @GuardRoute()
-    async deleteBook(@Param('id') id: string, @CurrentUser() user: User) {
         return this.booksService.deleteBook(+id, user)
     }
 }

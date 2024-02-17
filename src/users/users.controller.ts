@@ -52,14 +52,14 @@ export class UsersController {
   }
 
 
-  @Patch('auth/:id/update')
+  @Patch('auth/update/:id')
   @GuardRoute()
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(+id, updateUserDto)
   }
 
   // @UseInterceptors(ClassSerializerInterceptor)
-  @Delete(':id/delete')
+  @Delete('delete/:id')
   @GuardRoute()
     // @CheckAdministrativeAccess()
   remove(@Param('id') id: string) {

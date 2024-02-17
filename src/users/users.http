@@ -24,7 +24,7 @@ Content-Type: application/json
 }
 
 ### UPDATE USER INFO
-PATCH http://localhost:3000/users/auth/2/update
+PATCH http://localhost:3000/users/auth/update/2
 Content-Type: application/json
 
 {
@@ -36,5 +36,5 @@ POST http://localhost:3000/users/auth/signout
 Content-Type: application/json
 
 ### DELETE USER BY ID
-DELETE http://localhost:3000/users/1/delete
+DELETE http://localhost:3000/users/delete/1
 Content-Type: application/json

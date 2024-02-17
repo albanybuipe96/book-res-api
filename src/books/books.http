@@ -20,7 +20,7 @@ Content-Type: application/json
 }
 
 ### UPDATE BOOK
-PATCH http://localhost:3000/books/5/update
+PATCH http://localhost:3000/books/update/5
 Content-Type: application/json
 
 {
@@ -28,5 +28,5 @@ Content-Type: application/json
 }
 
 ### DELETE BOOK BY ID
-DELETE http://localhost:3000/books/7/delete
+DELETE http://localhost:3000/books/delete/7
 Content-Type: application/json

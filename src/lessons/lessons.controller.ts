@@ -29,17 +29,17 @@ export class LessonsController {
     return this.lessonsService.getLessons();
   }
 
-  @Get(':id')
+  @Get('/:id')
   findOne(@Param('id') id: string) {
     return this.lessonsService.getLesson(+id);
   }
 
-  @Patch(':id')
+  @Patch('/:id')
   update(@Param('id') id: string, @Body() updateLessonDto: UpdateLessonDto) {
     return this.lessonsService.update(+id, updateLessonDto);
   }
 
-  @Delete(':id/delete')
+  @Delete('delete/:id')
   remove(@Param('id') id: string) {
     return this.lessonsService.remove(+id);
   }
