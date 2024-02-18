@@ -9,9 +9,12 @@ POST http://localhost:3000/users/auth/signup
 Content-Type: application/json
 
 {
-    "email": "ustadh@nexus.com",
+    "email": "jaja@nexus.com",
     "password": "Password@2",
-    "admin": true
+    "admin": true,
+    "firstname": "Dramani",
+    "lastname": "Jaja",
+    "interests": []
 }
 
 ### SIGN IN USER

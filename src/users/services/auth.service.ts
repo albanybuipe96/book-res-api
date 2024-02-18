@@ -6,7 +6,7 @@ import { ErrorMessages } from 'src/constants/errors.constants'
 import { SignInDto } from '../dto/signin.dto'
 import { CreateUserDto } from '../dto/create-user.dto'
 
-const promisify = f => (...args: any) => new Promise((a,b)=>f(...args, (err, res) => err ? b(err) : a(res)));
+const promisify = f => (...args: any) => new Promise((a, b) => f(...args, (err, res) => err ? b(err) : a(res)));
 
 const scrypt = promisify(_scrypt)
 
@@ -15,7 +15,7 @@ export class AuthService {
     constructor(private readonly usersService: UsersService) { }
 
     async signup(createUserDto: CreateUserDto) {
-        const { email, password, admin } = createUserDto
+        const { email, password, admin, firstname, lastname, interests, } = createUserDto
         const users = await this.usersService.find(email)
 
         if (users.length) {
@@ -26,7 +26,8 @@ export class AuthService {
         const hash = (await scrypt(password, salt, 32)) as Buffer
         const encrypted = salt + '.' + hash.toString('hex')
 
-        const user = await this.usersService.create(email, encrypted, admin)
+        createUserDto.password = encrypted
+        const user = await this.usersService.create(createUserDto)
         return user
     }
 

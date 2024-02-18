@@ -9,8 +9,9 @@ import { ErrorMessages } from 'src/constants/errors.constants'
 @Injectable()
 export class UsersService {
   constructor(@InjectRepository(User) private readonly repo: Repository<User>) { }
-  async create(email: string, password: string, admin: boolean) {
-    const user = await this.repo.create({ email, password, admin })
+  async create(createUserDto: CreateUserDto) {
+    console.log(createUserDto)
+    const user = await this.repo.create(createUserDto)
     return this.repo.save(user)
   }
 
