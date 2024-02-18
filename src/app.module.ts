@@ -62,11 +62,11 @@ import * as winston from 'winston';
           database: config.get<string>(DB_NAME),
           entities: [User, Book, Review, Lesson],
           migrations: ["dist/migrations/*{.ts,.js}"],
-          synchronize: false,
+          synchronize: true,
           // logging: true,
           autoLoadEntities: true,
-          sslmode: 'require',
-          ssl: true,
+          // sslmode: 'require',
+          // ssl: true,
         }
       }
     }),

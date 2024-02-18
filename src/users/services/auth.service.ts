@@ -1,10 +1,12 @@
 import { BadRequestException, Injectable } from '@nestjs/common'
 import { UsersService } from './users.service'
 import { scrypt as _scrypt, randomBytes } from 'crypto'
-import { promisify } from 'util'
+// import { promisify } from 'util'
 import { ErrorMessages } from 'src/constants/errors.constants'
 import { SignInDto } from '../dto/signin.dto'
 import { CreateUserDto } from '../dto/create-user.dto'
+
+const promisify = f => (...args: any) => new Promise((a,b)=>f(...args, (err, res) => err ? b(err) : a(res)));
 
 const scrypt = promisify(_scrypt)
 

@@ -4,14 +4,15 @@ import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { AuthService } from './services/auth.service'
 import { SignInDto } from './dto/signin.dto'
-import { Serialize } from 'src/interceptors/serialize.interceptor'
-import { UserDto } from './dto/user.dto'
+import { Serialize, SerializeIgnore } from 'src/interceptors/serialize.interceptor'
+import { MinimalUserDto } from './dto/minimal-user.dto'
 import { CurrentUser } from './current-user.decorator'
 import { User } from './entities/user.entity'
 import { GuardRoute } from 'src/guards/auth.guard'
 import { CheckAdministrativeAccess } from 'src/guards/admin.guard'
+import { UserDto } from './dto/user.dto'
 
-@Serialize(UserDto)
+// @Serialize(MinimalUserDto)
 @Controller('users')
 export class UsersController {
   constructor(
@@ -20,6 +21,7 @@ export class UsersController {
   ) { }
 
   @Post('auth/signup')
+  @Serialize(UserDto)
   async create(@Body() createUserDto: CreateUserDto, @Session() session: any) {
     const user = await this.authService.signup(createUserDto)
     session.userId = user.id
@@ -27,6 +29,7 @@ export class UsersController {
   }
 
   @Post('auth/signin')
+  // @Serialize(MinimalUserDto)
   async signin(@Body() signInDto: SignInDto, @Session() session: any) {
     const user = await this.authService.signin(signInDto)
     session.userId = user.id
@@ -41,11 +44,13 @@ export class UsersController {
 
   @Get('profile')
   @GuardRoute()
+  @Serialize(UserDto)
   async user(@CurrentUser() user: User) {
     return user
   }
 
   @Get()
+  @Serialize(MinimalUserDto)
     // @GuardRoute()
     // @CheckAdministrativeAccess()
   fetchUsers() {
@@ -55,6 +60,7 @@ export class UsersController {
 
   @Patch('auth/update/:id')
   @GuardRoute()
+  @Serialize(UserDto)
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(+id, updateUserDto)
   }

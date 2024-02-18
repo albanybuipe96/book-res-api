@@ -7,6 +7,15 @@ interface ClassContructor {
     new(...args: any[]): {}
 }
 
+const IgnoredPropertyName = Symbol('IgnoredPropertyName')
+
+
+export function SerializeIgnore() {
+    return function(target, propertyKey: string, descriptor: PropertyDescriptor) {
+      descriptor.value[IgnoredPropertyName] = true
+    };
+  }
+
 export const Serialize = (dto: ClassContructor) => {
     return UseInterceptors(new SerializeInterceptor(dto))
 }

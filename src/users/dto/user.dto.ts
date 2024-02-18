@@ -12,11 +12,13 @@ export class UserDto {
     @Expose()
     email: string
 
+    @Expose()
     firstname: string
 
+    @Expose()
     lastname: string
 
-    @Expose()
+    // @Expose()
     admin: boolean
 
     password: string
@@ -24,5 +26,6 @@ export class UserDto {
     @Expose()
     profile: string
 
+    @Expose()
     interests: string[]
 }

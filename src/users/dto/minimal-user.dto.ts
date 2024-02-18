@@ -1,7 +1,7 @@
 import { Expose, Transform } from 'class-transformer'
 import { Book } from 'src/books/entities/book.entity'
 
-export class UserInfoDto {
+export class MinimalUserDto {
     @Expose()
     id: number
 
@@ -11,11 +11,9 @@ export class UserInfoDto {
 
     @Expose()
     email: string
-
-    @Expose()
+    
     firstname: string
 
-    @Expose()
     lastname: string
 
     @Expose()
@@ -26,6 +24,5 @@ export class UserInfoDto {
     @Expose()
     profile: string
 
-    @Expose()
     interests: string[]
 }
