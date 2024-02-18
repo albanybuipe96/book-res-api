@@ -64,8 +64,8 @@ import * as winston from 'winston';
           synchronize: true,
           // logging: true, 
           autoLoadEntities: true,
-          // sslmode: 'require', // uncomment when hosting online
-          // ssl: true, // uncomment when hosting online
+          sslmode: 'require', // uncomment when hosting online
+          ssl: true, // uncomment when hosting online
         }
       }
     }),
