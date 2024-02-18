@@ -36,6 +36,7 @@ export class UsersController {
   @Post('auth/signout')
   async signout(@Session() session: any) {
     session.userId = null
+    return {}
   }
 
   @Get('profile')
