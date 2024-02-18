@@ -31,7 +31,9 @@ PATCH http://localhost:3000/users/auth/update/2
 Content-Type: application/json
 
 {
-    "admin": true
+    "admin": true,
+    "firstname": "Abdul Rahman",
+    "email": "ustadh@nexus.com"
 }
 
 ### SIGN OUT USER

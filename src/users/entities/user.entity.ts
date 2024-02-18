@@ -19,7 +19,7 @@ export class User {
     lessons: Lesson[]
 
 
-    @Column()
+    @Column({ unique: true })
     email: string
 
     @Column()
