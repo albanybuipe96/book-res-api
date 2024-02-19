@@ -1,15 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Session, UseInterceptors, ClassSerializerInterceptor } from '@nestjs/common'
+import { Controller, Get, Post, Body, Patch, Param, Delete, Session } from '@nestjs/common'
 import { UsersService } from './services/users.service'
 import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { AuthService } from './services/auth.service'
 import { SignInDto } from './dto/signin.dto'
-import { Serialize, SerializeIgnore } from 'src/interceptors/serialize.interceptor'
-import { MinimalUserDto } from './dto/minimal-user.dto'
+import { Serialize } from 'src/interceptors/serialize.interceptor'
 import { CurrentUser } from './current-user.decorator'
 import { User } from './entities/user.entity'
 import { GuardRoute } from 'src/guards/auth.guard'
-import { CheckAdministrativeAccess } from 'src/guards/admin.guard'
 import { UserDto } from './dto/user.dto'
 
 // @Serialize(MinimalUserDto)
@@ -29,7 +27,7 @@ export class UsersController {
   }
 
   @Post('auth/signin')
-  // @Serialize(MinimalUserDto)
+  @Serialize(UserDto)
   async signin(@Body() signInDto: SignInDto, @Session() session: any) {
     const user = await this.authService.signin(signInDto)
     session.userId = user.id
@@ -50,7 +48,7 @@ export class UsersController {
   }
 
   @Get()
-  @Serialize(MinimalUserDto)
+  @Serialize(UserDto)
     // @GuardRoute()
     // @CheckAdministrativeAccess()
   fetchUsers() {

@@ -19,7 +19,7 @@ export class BookDto {
     @Expose()
     author: string
 
-    // @Expose()
+    @Expose()
     description: string
 
     @Expose()

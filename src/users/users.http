@@ -22,8 +22,8 @@ POST http://localhost:3000/users/auth/signin
 Content-Type: application/json
 
 {
-    "email": "albanybuipe@nexus.com",
-    "password": "Password@1"
+    "email": "ustadh@nexus.com",
+    "password": "Password@2"
 }
 
 ### UPDATE USER INFO

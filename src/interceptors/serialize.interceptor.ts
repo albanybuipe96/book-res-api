@@ -4,17 +4,8 @@ import { map } from 'rxjs/operators'
 import { plainToInstance } from 'class-transformer'
 
 interface ClassContructor {
-    new(...args: any[]): {}
+    new(...args: any[]): NonNullable<unknown>
 }
-
-const IgnoredPropertyName = Symbol('IgnoredPropertyName')
-
-
-export function SerializeIgnore() {
-    return function(target, propertyKey: string, descriptor: PropertyDescriptor) {
-      descriptor.value[IgnoredPropertyName] = true
-    };
-  }
 
 export const Serialize = (dto: ClassContructor) => {
     return UseInterceptors(new SerializeInterceptor(dto))
