@@ -14,7 +14,6 @@ export class BooksService {
     ) { }
 
     addBook(createBookDto: CreateBookDto, user: User) {
-        console.log(BooksService.name, createBookDto)
         const book = this.bookRepository.create(createBookDto)
         book.user = user
         return this.bookRepository.save(book)

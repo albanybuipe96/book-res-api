@@ -17,6 +17,9 @@ export class BookDto {
     title: string
 
     @Expose()
+    cover: string
+
+    @Expose()
     author: string
 
     @Expose()

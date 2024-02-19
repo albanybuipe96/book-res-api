@@ -10,6 +10,10 @@ export class CreateBookDto {
     @IsString()
     @IsOptional()
     description: string
+    
+    @IsString()
+    @IsOptional()
+    cover: string
 
     @IsNumber()
     @IsOptional()

@@ -20,6 +20,9 @@ export class Book {
     @Column()
     title: string
 
+    @Column({default: ''})
+    cover: string
+
     @Column()
     author: string
 
