@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Session } from '@nestjs/common'
+import { Body, Controller, Delete, FileTypeValidator, Get, MaxFileSizeValidator, Param, ParseFilePipe, Patch, Post, Query, Session, UploadedFile, UseInterceptors } from '@nestjs/common'
 import { BooksService } from './books.service'
 import { CreateBookDto } from './dtos/create-book.dto'
 import { Serialize } from 'src/interceptors/serialize.interceptor'
@@ -8,6 +8,11 @@ import { UpdateBookDto } from './dtos/update-book.dto'
 import { CurrentUser } from 'src/users/current-user.decorator'
 import { User } from 'src/users/entities/user.entity'
 import { CurrentBook } from './decorators/current-book.decorator'
+import { FileInterceptor } from '@nestjs/platform-express'
+import { Express } from 'express'
+import { diskStorage } from 'multer'
+import { extname } from 'path'
+import { generateSlug } from 'random-word-slugs'
 
 @Controller('books')
 @Serialize(BookDto)
@@ -16,11 +21,31 @@ export class BooksController {
 
     @Post()
     @GuardRoute()
+    @UseInterceptors(FileInterceptor('cover', {
+        storage: diskStorage({
+            destination: './uploads',
+            filename: (req, file, callback) => {
+            
+                const randomName = generateSlug();
+                callback(null, `${randomName}${extname(file.originalname)}`)
+            }
+        })
+    }))
     async add(
         @Body() createBookDto: CreateBookDto,
+        @UploadedFile(
+            new ParseFilePipe({
+                validators: [
+                    new FileTypeValidator({ fileType: '.(png|jpeg|jpg)' }),
+                    new MaxFileSizeValidator({ maxSize: 1024 * 1024 * 4 })
+                ]
+            })
+        ) file: Express.Multer.File,
         @CurrentUser() user: User,
         @Session() session: any,
     ) {
+        console.log(file)
+        createBookDto.cover = file.path
         const book = await this.booksService.addBook(createBookDto, user)
         session.bookId = book.id
         return book

@@ -30,3 +30,15 @@ Content-Type: application/json
 ### DELETE BOOK BY ID
 DELETE http://localhost:3000/books/delete/7
 Content-Type: application/json
+
+### UPLOAD BOOK COVER
+POST http://localhost:3000/books/upload
+Content-Type: application/json
+
+{
+    "csvFile":"g-LOr54jr/Sample-Spreadsheet-100-rows.csv"
+}
+
+### CLEAR DB
+POST http://localhost:3000/books/clear
+Content-Type: application/json

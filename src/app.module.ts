@@ -81,7 +81,7 @@ export class AppModule {
 
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(cookieSession({
-      keys: [this.configService.get(COOKIE_SESSION_SECRET)]
+      keys: [this.configService.get(COOKIE_SESSION_SECRET)],
     })).forRoutes('*')
   }
 }
