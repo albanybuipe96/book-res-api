@@ -34,7 +34,7 @@ export class BooksController {
 
     @Get('review')
     async review(@CurrentBook() book) {
-        return book
+        return book || {}
     }
 
     @Get('/user')
