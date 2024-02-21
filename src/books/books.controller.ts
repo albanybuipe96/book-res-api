@@ -26,7 +26,6 @@ export class BooksController {
         @Body() createBookDto: CreateBookDto,
         @CurrentUser() user: User,
         @Session() session: any,
-        @Res() res
     ) {
         const book = await this.booksService.addBook(createBookDto, user)
         session.bookId = book.id
