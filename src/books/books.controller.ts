@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, FileTypeValidator, Get, MaxFileSizeValidator, Param, ParseFilePipe, Patch, Post, Query, Session, UploadedFile, UseInterceptors } from '@nestjs/common'
+import { Body, Controller, Delete, FileTypeValidator, Get, MaxFileSizeValidator, Param, ParseFilePipe, Patch, Post, Query, Res, Session, UploadedFile, UseInterceptors } from '@nestjs/common'
 import { BooksService } from './books.service'
 import { CreateBookDto } from './dtos/create-book.dto'
 import { Serialize } from 'src/interceptors/serialize.interceptor'
@@ -11,8 +11,9 @@ import { CurrentBook } from './decorators/current-book.decorator'
 import { FileInterceptor } from '@nestjs/platform-express'
 import { Express } from 'express'
 import { diskStorage } from 'multer'
-import { extname } from 'path'
+import { extname, join } from 'path'
 import { generateSlug } from 'random-word-slugs'
+import { of } from 'rxjs'
 
 @Controller('books')
 @Serialize(BookDto)
@@ -43,9 +44,11 @@ export class BooksController {
         ) file: Express.Multer.File,
         @CurrentUser() user: User,
         @Session() session: any,
+        @Res() res
     ) {
         console.log(file)
-        createBookDto.cover = file.path
+        
+        createBookDto.cover = join(process.cwd(), `${file.path}`)
         const book = await this.booksService.addBook(createBookDto, user)
         session.bookId = book.id
         return book
