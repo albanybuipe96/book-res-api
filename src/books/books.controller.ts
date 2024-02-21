@@ -22,33 +22,12 @@ export class BooksController {
 
     @Post()
     @GuardRoute()
-    @UseInterceptors(FileInterceptor('cover', {
-        storage: diskStorage({
-            destination: './uploads',
-            filename: (req, file, callback) => {
-            
-                const randomName = generateSlug();
-                callback(null, `${randomName}${extname(file.originalname)}`)
-            }
-        })
-    }))
     async add(
         @Body() createBookDto: CreateBookDto,
-        @UploadedFile(
-            new ParseFilePipe({
-                validators: [
-                    new FileTypeValidator({ fileType: '.(png|jpeg|jpg)' }),
-                    new MaxFileSizeValidator({ maxSize: 1024 * 1024 * 4 })
-                ]
-            })
-        ) file: Express.Multer.File,
         @CurrentUser() user: User,
         @Session() session: any,
         @Res() res
     ) {
-        console.log(file)
-        
-        createBookDto.cover = join(process.cwd(), `${file.path}`)
         const book = await this.booksService.addBook(createBookDto, user)
         session.bookId = book.id
         return book
